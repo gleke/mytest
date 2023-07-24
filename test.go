@@ -48,3 +48,15 @@ type DmProductInfo struct {
 	stores.Time
 	//Devices []*DmDeviceInfo    `gorm:"foreignKey:ProductID;references:ProductID"` // 添加外键
 }
+
+// 产品自定义协议表
+type DmProductCustom struct {
+	ID              int64          `gorm:"column:id;type:bigint;primary_key;AUTO_INCREMENT"`
+	ProductID       string         `gorm:"column:product_id;type:char(11);NOT NULL"`   // 产品id
+	ScriptLang      int64          `gorm:"column:script_lang;type:smallint;default:1"` // 脚本语言类型 1:JavaScript 2:lua 3:python
+	CustomTopic     sql.NullString `gorm:"column:custom_topic;type:json"`              // 自定义topic数组
+	TransformScript sql.NullString `gorm:"column:transform_script;type:text"`          // 协议转换脚本
+	LoginAuthScript sql.NullString `gorm:"column:login_auth_script;type:text"`         // 登录认证脚本
+	stores.Time
+	ProductInfo *DmProductInfo `gorm:"foreignKey:ProductID;references:ProductID"`
+}
